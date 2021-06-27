@@ -91,7 +91,7 @@ def assemble_tags(boardgames):
         boardgame = boardgame.replace('!', '')
         boardgame = boardgame.replace(',', '')
         boardgame = boardgame.replace(' ', '')
-        boardgame = boardgame.replace('&', 'And')
+        boardgame = boardgame.replace('&', 'N')
         boardgame = boardgame.replace('–', ' #')
         boardgame = boardgame.replace(':', ' #')  
         boardgame = boardgame.replace('-', '')      
