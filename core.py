@@ -1,3 +1,4 @@
+import os
 import re
 import json
 import requests
@@ -7,7 +8,7 @@ from flask import Flask, flash, redirect, render_template, url_for
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '0hsd0gvhs0F=0fh0A=DFF9DJ0VD0sfvsm=dfv9'
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 
 def get_source(link):
