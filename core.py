@@ -7,7 +7,7 @@ from flask import Flask, flash, redirect, render_template, url_for
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'placeholder'
+app.config['SECRET_KEY'] = '0hsd0gvhs0F=0fh0A=DFF9DJ0VD0sfvsm=dfv9'
 
 
 def get_source(link):
@@ -125,7 +125,7 @@ def parse_data(offer, links, city, state):
     for tag in assemble_tags(boardgames):
         output.append(tag)
 
-    output.append(f'#{city.title()} #{state}')
+    output.append(f'#{city.title().replace(" ", "")} #{state}')
 
     return output
 

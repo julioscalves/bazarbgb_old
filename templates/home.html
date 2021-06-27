@@ -3,10 +3,12 @@
 
 {% block content %}
     <div class="row mt-3">
-        <h1 class="text-center display-3">BGB Bazar - Tags</h1>
-        <div class="alert alert-secondary mt-3" role="alert">
-            <p>Bem vindo ao gerador de tags para o Bazar BGB.</p>
-            <p>Copie o link do jogo como disponível no <a href="https://www.boardgamegeek.com/">BGG</a> ou no <a href="https://www.comparajogos.com.br/">Comparajogos</a>, além das demais informações, e clique em enviar.</p>            
+        <h1 class="text-center display-3 mx-auto">BGB Bazar - Tags</h1>
+        <div class="alert alert-secondary alert-dismissible fade show mt-3 mx-auto" role="alert">
+            Copie o link do jogo como disponível no <a href="https://www.boardgamegeek.com/">BGG</a> ou no <a href="https://www.comparajogos.com.br/">Comparajogos</a>, além das demais informações, e clique em enviar.   
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -19,42 +21,45 @@
                 </ul>
             {% endif %}
         {% endwith %}
-        <div class="col-md-6">
-            <div class="mb-3 mt-3">
-                <div class="form-group">
-                <form action="" method="post" novalidate>
-                    {{ form.hidden_tag() }}
-                    <p>
-                        {{ form.offer.label }}<br>
-                        {{ form.offer(class_="form-control") }}
-                    </p>
-                    <p>
-                        {{ form.links.label }}<br>
-                        {{ form.links(class_="form-control", rows=12, placeholder="https://www.comparajogos.com.br/carcassonne") }}
-                    </p>
-                    <p>
-                        {{ form.city.label }}<br>
-                        {{ form.city(class_="form-control", placeholder="Mantenha a acentuação correta.") }}
-                    </p>
-                    <p>
-                        {{ form.state.label }}<br>
-                        {{ form.state(class_="form-control") }}
-                    </p>
-                    <p>{{ form.submit(class_="btn btn-primary") }}</p>
-                </form>    
-                </div>         
-            </div>                
-        </div>
-        <div class="col-md-6">
-            <div class="mb-3 mt-3">
-                <div class="form-group mx-3">                
-                    <label for="exampleFormControlTextarea1">Tags</label>
-                    {% if data %}
-                        <br>
-                        {% for row in data %}<p>{{ row }}</p>{% endfor %}
-                    {% endif %}
-                    </div>                     
-            </div>                
+    </div>
+        {% if data %}      
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <textarea rows="6" id="tag-area" class="form-control">{% for row in data %}
+{{ row }}
+{% endfor %}</textarea>
+                <br>
+                <button class="btn btn-block btn-primary" onclick="copy()">Copiar</button>
+            </div>  
+        {% endif %}
+        </div> 
+        <div class="row mt-3">
+            <div class="col-md-6 mx-auto">
+                <div class="mb-3 mt-3">
+                    <div class="form-group">
+                    <form action="" method="post" novalidate>
+                        {{ form.hidden_tag() }}
+                        <p>
+                            {{ form.offer.label }}<br>
+                            {{ form.offer(class_="form-control") }}
+                        </p>
+                        <p>
+                            {{ form.links.label }}<br>
+                            {{ form.links(class_="form-control", rows=8, placeholder="https://www.comparajogos.com.br/carcassonne") }}
+                        </p>
+                        <p>
+                            {{ form.city.label }}<br>
+                            {{ form.city(class_="form-control", placeholder="Mantenha a acentuação correta.") }}
+                        </p>
+                        <p>
+                            {{ form.state.label }}<br>
+                            {{ form.state(class_="form-control") }}
+                        </p>
+                        <p>{{ form.submit(class_="btn btn-primary btn-block") }}</p>
+                    </form>    
+                    </div>         
+                </div>                
+            </div>
         </div>
     </div>      
 {% endblock %}
