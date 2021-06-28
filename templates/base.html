@@ -23,11 +23,33 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script>
+        $(document).ready(function() {
+            let maxCards = 10;
+            let boardGameWrapper = $("#boardgame-wrapper");
+            let addButton = $("#boardgame-add-button");
+
+            let initialCardNumber = boardGameWrapper.length;
+            let boxesAdded = 1;
+
+            $(addButton).click(function() {
+              const cardContent = '<div class="card-body"><div class="boardgame"><div class="row"><div class="col-md-2 col-sm-3 col-xs-3 col-3"><p>{{ form.offer.label }}<br>{{ form.offer(class_="form-control", id="offer_' + initialCardNumber + '") }}</p></div><div class="col-md-2 col-sm-3 col-xs-3 col-3"><p id="price_">{{ form.prices.label }}<br>{{ form.prices(class_="form-control", id="offer_' + initialCardNumber + '", placeholder="199.90 R$") }}</p></div><div  class="col-md-8 col-sm-6 col-xs-6 col-6"><p>{{ form.details.label }}<br>{{ form.details(class_="form-control", placeholder="Como novo e com sleeves.") }}</p></div></div><div><p>{{ form.links.label }}<br>{{ form.links(class_="form-control", placeholder="https://www.comparajogos.com.br/carcassonne") }}</p></div><button type="button" class="btn btn-outline-danger btn-block btn-removable">Remover</button></div></div>'
+
+              if(initialCardNumber <= maxCards) {
+                boxesAdded++;
+                $(boardGameWrapper).append(cardContent);
+                initialCardNumber++;
+              }
+
+              return false;
+          });
+        });
+
         function copy() {
             let textarea = document.getElementById("tag-area");
             textarea.select();
             document.execCommand("copy");
-        }
+        };
     </script>
+
     </body>
 </html>
