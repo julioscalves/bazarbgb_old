@@ -5,15 +5,15 @@ from wtforms.validators import InputRequired
 
 STATES = [
         ('AC'), ('AL'), ('AP'), ('AM'), ('BA'),
-        ('CE'), ('ES'), ('GO'), ('MA'), ('MT'),
-        ('MS'), ('MG'), ('PA'), ('PB'), ('PR'),
-        ('PI'), ('RJ'), ('RN'), ('RS'), ('RO'),
-        ('RR'), ('SC'), ('SP'), ('SE'), ('TO'),
-        ('DF'),
+        ('CE'), ('DF'), ('ES'), ('GO'), ('MA'), 
+        ('MT'), ('MS'), ('MG'), ('PA'), ('PB'), 
+        ('PR'), ('PI'), ('RJ'), ('RN'), ('RS'), 
+        ('RO'), ('RR'), ('SC'), ('SP'), ('SE'), 
+        ('TO'),
     ]
 
 OFFER = [
-    ('Troca', 'Troca'), ('Venda', 'Venda'), ('Procura', 'Procura')
+    ('Venda', 'Venda'), ('Troca', 'Troca'), ('Procura', 'Procura')
 ]
 
 

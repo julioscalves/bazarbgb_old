@@ -65,7 +65,8 @@ def get_boardgamegeek_data(link):
         return boardgame
 
     except:
-        flash(f'an error has occurred!\nplease verify if:\n1. the source is accepted.\n2. the source is online\n3. the link is correct.')
+        flash(f'ocorreu um erro. verifique se o link informado está \
+                dentro dos padrões esperados e tente novamente')
 
 
 def router(link, source):
