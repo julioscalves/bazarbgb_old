@@ -22,5 +22,5 @@ class LinkForm(FlaskForm):
     city    = StringField('Cidade', validators=[InputRequired()])
     state   = SelectField('Estado', choices=STATES)
     links   = TextAreaField('Links', validators=[InputRequired()])
-    details = TextAreaField('Detalhes', validators=[InputRequired()])
+    details = TextAreaField('Detalhes')
     submit  = SubmitField('Enviar')
