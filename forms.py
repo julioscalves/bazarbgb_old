@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, StringField, SelectField, SubmitField
-from wtforms.validators import InputRequired
+from wtforms.validators import InputRequired, Length
 
 
 STATES = [
@@ -16,11 +16,12 @@ OFFER = [
     ('Venda', 'Venda'), ('Troca', 'Troca'), ('Procura', 'Procura')
 ]
 
-
 class LinkForm(FlaskForm):
+    # pay attention to FieldList
     offer   = SelectField('Tipo', choices=OFFER)
     city    = StringField('Cidade', validators=[InputRequired()])
     state   = SelectField('Estado', choices=STATES)
-    links   = TextAreaField('Links', validators=[InputRequired()])
-    details = TextAreaField('Detalhes')
+    links   = StringField('Link', validators=[InputRequired()])
+    details = StringField('Detalhes', validators=[Length(max=50)])
+    prices  = StringField('Preço', validators=[Length(max=10)])
     submit  = SubmitField('Enviar')

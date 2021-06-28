@@ -38,7 +38,11 @@
                 <div class="mb-3 mt-3">
                     <div class="form-group">
                     <form action="" method="post" novalidate>
-                        {{ form.hidden_tag() }}                        
+                        {{ form.hidden_tag() }}
+                        <p>
+                            {{ form.offer.label }}<br>
+                            {{ form.offer(class_="form-control") }}
+                        </p>
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-6 col-6">
                                 <p>
@@ -53,43 +57,11 @@
                                 </p>
                             </div>
                         </div>  
-                        <div class="card mt-3 mb-3">
-                            <div class="card-header">
-                              Produto
-                            </div>
-                            <div class="card-body" id="boardgame-wrapper">
-                                <div class="boardgame">
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-3 col-xs-3 col-3">
-                                            <p>
-                                                {{ form.offer.label }}<br>
-                                                {{ form.offer(class_="form-control") }}
-                                            </p>
-                                        </div>
-                                        <div class="col-md-2 col-sm-3 col-xs-3 col-3">
-                                            <p>
-                                                {{ form.prices.label }}<br>
-                                                {{ form.prices(class_="form-control", placeholder="199.90 R$") }}
-                                            </p>
-                                        </div>
-                                        <div  class="col-md-8 col-sm-6 col-xs-6 col-6">
-                                            <p>
-                                                {{ form.details.label }}<br>
-                                                {{ form.details(class_="form-control", placeholder="Como novo e com sleeves.") }}
-                                            </p>
-                                        </div> 
-                                    </div> 
-                                    <div">
-                                        <p>
-                                            {{ form.links.label }}<br>
-                                            {{ form.links(class_="form-control", placeholder="https://www.comparajogos.com.br/carcassonne") }}
-                                        </p>
-                                    </div> 
-                                    <a href="#" class="btn btn-outline-primary btn-block">Adicionar</a>                               
-                                </div>                                
-                            </div>
-                          </div>                           
-                        <p>{{ form.submit(class_="btn btn-info btn-lg btn-block mb-5 mt-3") }}</p>
+                        <p>
+                            {{ form.links.label }}<br>
+                            {{ form.links(class_="form-control", rows=8, placeholder="https://www.comparajogos.com.br/carcassonne") }}
+                        </p>                                               
+                        <p>{{ form.submit(class_="btn btn-info btn-block mb-5") }}</p>
                     </form>    
                     </div>         
                 </div>                

@@ -137,12 +137,18 @@ def home(data=None):
     form = LinkForm()
 
     if form.validate_on_submit():
-        offer  = form.offer.data
-        links  = form.links.data.strip()
-        city   = form.city.data
-        state  = form.state.data
-        data   = parse_data(offer, links, city, state)
-
+        offer   = form.offer.data
+        links   = form.links.data.strip()
+        city    = form.city.data
+        state   = form.state.data
+        details = form.details.data
+        prices  = form.prices.data
+        data    = parse_data(offer, links, city, state)
+        
         redirect(url_for('home', data=data))
 
     return render_template('home.html', form=form, data=data)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
