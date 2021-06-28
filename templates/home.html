@@ -5,7 +5,8 @@
     <div class="row mt-3">
         <h1 class="text-center display-3 mx-auto">BGB Bazar</h1>
         <div class="alert alert-secondary alert-dismissible fade show mt-3 mx-auto" role="alert">
-            Cole o link do jogo como disponível no <a href="https://www.boardgamegeek.com/" target="_blank">BGG</a> ou no <a href="https://www.comparajogos.com.br/" target="_blank">ComparaJogos</a>, preencha as demais informações e clique em enviar.   
+            Copie e cole o link do jogo, como disponível no <a href="https://boardgamegeek.com/" target="_blank">BGG</a> ou no <a href="https://www.comparajogos.com.br/" target="_blank">ComparaJogos</a>, preencha as demais informações e clique em enviar.
+            <br><br>Depois é só copiar o texto formatado abaixo contendo as hashtags e enviar no <a href="https://t.me/bazarbgb/" target="_blank">@BazarBGB</a>!
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -25,16 +26,16 @@
         {% if data %}      
         <div class="row mt-3">
             <div class="col-md-10 col-sm-10 col-xs-10 col-10 mx-auto">
-                <textarea rows="6" id="tag-area" class="form-control border border-info">{% for row in data %}
+                <textarea rows="6" id="tag-area" class="form-control border border-info" readonly>{% for row in data %}
 {{ row }}
 {% endfor %}</textarea>
                 <br>
                 <button class="btn btn-block btn-info" onclick="copy()">Copiar</button>
-            </div>  
-        {% endif %}
+            </div> 
         </div> 
+        {% endif %}         
         <div class="row mt-3">
-            <div class="col-md-10 col-sm-10 col-xs-10 col-10 mx-auto">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-10 mx-auto">
                 <div class="mb-3 mt-3">
                     <div class="form-group">
                     <form action="" method="post" novalidate>
@@ -43,18 +44,24 @@
                             {{ form.offer.label }}<br>
                             {{ form.offer(class_="form-control") }}
                         </p>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6 col-6">
+                                <p>
+                                    {{ form.city.label }}<br>
+                                    {{ form.city(class_="form-control", placeholder="Mantenha a acentuação correta") }}
+                                </p>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6 col-6">
+                                <p>
+                                    {{ form.state.label }}<br>
+                                    {{ form.state(class_="form-control") }}
+                                </p>
+                            </div>
+                        </div>  
                         <p>
                             {{ form.links.label }}<br>
                             {{ form.links(class_="form-control", rows=8, placeholder="https://www.comparajogos.com.br/carcassonne") }}
-                        </p>                                                  
-                        <p>
-                            {{ form.city.label }}<br>
-                            {{ form.city(class_="form-control", placeholder="Mantenha a acentuação correta") }}
-                        </p>
-                        <p>
-                            {{ form.state.label }}<br>
-                            {{ form.state(class_="form-control") }}
-                        </p>
+                        </p>                                               
                         <p>{{ form.submit(class_="btn btn-info btn-block mb-5") }}</p>
                     </form>    
                     </div>         

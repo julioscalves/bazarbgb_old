@@ -145,5 +145,4 @@ def home(data=None):
 
         redirect(url_for('home', data=data))
 
-
     return render_template('home.html', form=form, data=data)

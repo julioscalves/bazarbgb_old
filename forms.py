@@ -18,8 +18,9 @@ OFFER = [
 
 
 class LinkForm(FlaskForm):
-    offer  = SelectField('Tipo', choices=OFFER)
-    links  = TextAreaField('Links', validators=[InputRequired()])
-    city   = StringField('Cidade', validators=[InputRequired()])
-    state  = SelectField('Estado', choices=STATES)
-    submit = SubmitField('Enviar')
+    offer   = SelectField('Tipo', choices=OFFER)
+    city    = StringField('Cidade', validators=[InputRequired()])
+    state   = SelectField('Estado', choices=STATES)
+    links   = TextAreaField('Links', validators=[InputRequired()])
+    details = TextAreaField('Detalhes', validators=[InputRequired()])
+    submit  = SubmitField('Enviar')
