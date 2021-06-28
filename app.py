@@ -4,11 +4,11 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from forms import LinkForm
-from flask import Flask, flash, redirect, render_template, url_for
+from flask import Flask, flash, redirect, render_template, request, url_for
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'avb-jgm845tjv-a0mwtg8we0mcge5-c8' #just a placeholder, os.environ['SECRET_KEY']
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 
 def get_source(link):
@@ -144,6 +144,8 @@ def home(data=None):
         details = form.details.data
         prices  = form.prices.data
         data    = parse_data(offer, links, city, state)
+
+        print(request.form.get('links'))
         
         redirect(url_for('home', data=data))
 

@@ -32,9 +32,9 @@
             let boxesAdded = 1;
 
             $(addButton).click(function() {
-              const cardContent = '<div class="card-body"><div class="boardgame"><div class="row"><div class="col-md-2 col-sm-3 col-xs-3 col-3"><p>{{ form.offer.label }}<br>{{ form.offer(class_="form-control", id="offer_' + initialCardNumber + '") }}</p></div><div class="col-md-2 col-sm-3 col-xs-3 col-3"><p id="price_">{{ form.prices.label }}<br>{{ form.prices(class_="form-control", id="offer_' + initialCardNumber + '", placeholder="199.90 R$") }}</p></div><div  class="col-md-8 col-sm-6 col-xs-6 col-6"><p>{{ form.details.label }}<br>{{ form.details(class_="form-control", placeholder="Como novo e com sleeves.") }}</p></div></div><div><p>{{ form.links.label }}<br>{{ form.links(class_="form-control", placeholder="https://www.comparajogos.com.br/carcassonne") }}</p></div><button type="button" class="btn btn-outline-danger btn-block btn-removable">Remover</button></div></div>'
+              let cardContent = '<div class="card-body" id="card_' + initialCardNumber + '"><div class="boardgame"><div class="row"><div class="col-md-2 col-sm-3 col-xs-3 col-3"><p id="offer_' + initialCardNumber + '">{{ form.offer.label }}<br>{{ form.offer(class_="form-control") }}</p></div><div class="col-md-2 col-sm-3 col-xs-3 col-3"><p id="price_' + initialCardNumber + '">{{ form.prices.label }}<br>{{ form.prices(class_="form-control", placeholder="199.90 R$") }}</p></div><div  class="col-md-8 col-sm-6 col-xs-6 col-6"><p>{{ form.details.label }}<br>{{ form.details(class_="form-control", placeholder="Como novo e com sleeves.") }}</p></div></div><div><p>{{ form.links.label }}<br>{{ form.links(class_="form-control", placeholder="https://www.comparajogos.com.br/carcassonne") }}</p></div><div class="text-right"><button type="button" class="btn btn-outline-danger btn-removable" onclick="askConfirmation()">Remover</button></div></div></div>'
 
-              if(initialCardNumber <= maxCards) {
+              if (initialCardNumber <= maxCards) {
                 boxesAdded++;
                 $(boardGameWrapper).append(cardContent);
                 initialCardNumber++;
@@ -42,9 +42,27 @@
 
               return false;
           });
+
+          $("body").on("click", ".btn-removable", function() {
+
+            let confirmation = confirm("Você quer remove este anúncio?");
+
+            if (confirmation == true) {
+              if (boxesAdded > 1) {
+                $(this).parent('div').parent('div').parent('div').remove();
+                boxesAdded--;
+              }
+            }
+          })
         });
 
         function copy() {
+            let textarea = document.getElementById("tag-area");
+            textarea.select();
+            document.execCommand("copy");
+        };
+
+        function askConfirmation() {
             let textarea = document.getElementById("tag-area");
             textarea.select();
             document.execCommand("copy");
