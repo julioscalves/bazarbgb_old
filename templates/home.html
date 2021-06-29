@@ -48,16 +48,15 @@ body {
                 <div class="mb-3 mt-3">
                     <div class="form-group">
                         <form id="boardgame-form" action="" method="POST" role="form">
-                            {{ form.hidden_tag() }}
-                        
+                            {{ form.hidden_tag() }}      
                             <div class="row">
-                                <div class="col-md-9 col-sm-9 col-xs-9 col-9">
+                                <div class="col-md-8 col-sm-8 col-xs-8 col-8">
                                     <p>
                                         {{ form.city.label }}<br>
                                         {{ form.city(class_="form-control", placeholder="Mantenha a acentuação correta") }}
                                     </p>
                                 </div>
-                                <div class="col-md-3 col-sm-3 col-xs-3 col-3">
+                                <div class="col-md-4 col-sm-4 col-xs-4 col-4">
                                     <p>
                                         {{ form.state.label }}<br>
                                         {{ form.state(class_="form-select") }}
