@@ -1,0 +1,37 @@
+{%- macro render_boardgame_form(subform, index) %}
+<div id="boardgame-{{ index }}-form" class="{% if index != '_' %}subform{% else %}is-hidden{% endif %}" data-index="{{ index }}">
+    {{ subform.csrf_token() }}
+    <div class="card mt-3 mb-3">
+        <div class="card-body">
+            <div class="row">
+                <p>
+                    <div class="col-md-6 col-sm-6 col-xs-6 col-6">
+                        {{ subform.offer.label }}
+                        {{ subform.offer(class_="form-select ad-type") }}
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 col-6">
+                        {{ subform.price.label }}
+                        {{ subform.price(class_="form-control price-input", required="required") }}
+                    </div>
+                </p>
+            </div>
+            <p>
+                <div>
+                    {{ subform.details.label }}
+                    <small class="text-muted"><span class="chars" style="float:right;"></span></small>
+                    {{ subform.details(class_="form-control detail-area", maxlength="50", placeholder="(Opcional) Primeira edição. Como novo e com sleeves. ") }}
+                </div>
+            </p>
+            <p>
+                <div>
+                    {{ subform.link.label }}
+                    {{ subform.link(class_="form-control", placeholder="https://www.comparajogos.com.br/carcassonne") }}
+                </div>
+            </p>
+            <p class="text-end">
+                <a class="remove btn btn-outline-danger" href="#">Remover</a>
+            </p>
+        </div>
+    </div>
+</div>
+{%- endmacro %}

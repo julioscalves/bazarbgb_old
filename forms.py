@@ -1,5 +1,6 @@
+from flask.app import Flask
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, StringField, SelectField, SubmitField
+from wtforms import FieldList, FormField, StringField, SelectField, SubmitField
 from wtforms.validators import InputRequired, Length
 
 
@@ -13,15 +14,17 @@ STATES = [
     ]
 
 OFFER = [
-    ('Venda', 'Venda'), ('Troca', 'Troca'), ('Procura', 'Procura')
+    ('Venda'), ('Troca'), ('Procura')
 ]
 
-class LinkForm(FlaskForm):
-    # pay attention to FieldList
+class BoardGameForm(FlaskForm):
     offer   = SelectField('Tipo', choices=OFFER)
-    city    = StringField('Cidade', validators=[InputRequired()])
-    state   = SelectField('Estado', choices=STATES)
-    links   = StringField('Link', validators=[InputRequired()])
+    link    = StringField('Link', validators=[InputRequired()])
     details = StringField('Detalhes', validators=[Length(max=50)])
-    prices  = StringField('Preço', validators=[Length(max=10)])
+    price   = StringField('Preço', validators=[Length(max=8)])
     submit  = SubmitField('Enviar')
+
+class MainForm(FlaskForm):
+    boardgames = FieldList(FormField(BoardGameForm), min_entries=1, max_entries=20)
+    city       = StringField('Cidade', validators=[InputRequired()])
+    state      = SelectField('Estado', choices=STATES)

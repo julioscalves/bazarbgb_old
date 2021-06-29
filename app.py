@@ -3,7 +3,7 @@ import re
 import json
 import requests
 from bs4 import BeautifulSoup
-from forms import LinkForm
+from forms import BoardGameForm, MainForm
 from flask import Flask, flash, redirect, render_template, request, url_for
 
 
@@ -102,6 +102,7 @@ def assemble_tags(boardgames):
 
     return tags
 
+
 def parse_data(offer, links, city, state):
     output = []
     links = links.split('\r')
@@ -132,24 +133,39 @@ def parse_data(offer, links, city, state):
     return output
 
 
+def repack(form_data):
+    data = {}
+    data['city'] = form_data.city.data
+    data['state'] = form_data.state.data
+
+    index = 1
+    for games in form_data.boardgames.data:            
+        data[index] = {
+            'link'      : games['link'],
+            'offer'     : games['offer'],
+            'name'      : '',
+            'price'     : games['price'],
+            'details'   : games['details'],
+        }
+        index += 1
+
+    int_keys = list(filter(lambda i: type(i) == int, data.keys()))
+
+    return data, int_keys
+
+
 @app.route("/", methods=['GET', 'POST'])
 def home(data=None):
-    form = LinkForm()
+    form = MainForm()
+    template_form = BoardGameForm(prefix='boardgames-_-')
 
-    if form.validate_on_submit():
-        offer   = form.offer.data
-        links   = form.links.data.strip()
-        city    = form.city.data
-        state   = form.state.data
-        details = form.details.data
-        prices  = form.prices.data
-        data    = parse_data(offer, links, city, state)
-
-        print(request.form.get('links'))
+    if form.validate_on_submit():    
+        data, int_keys = repack(form)
+        #data    = parse_data(offer, link, city, state)
         
-        redirect(url_for('home', data=data))
+        #redirect(url_for('home', data=data))
 
-    return render_template('home.html', form=form, data=data)
+    return render_template('home.html', form=form, data=data, _template=template_form)
 
 
 if __name__ == "__main__":
