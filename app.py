@@ -84,23 +84,27 @@ def remove_parenthesis(string):
     return cleaned_string
 
 
-def assemble_tags(boardgames):
-    tags = []
-    
-    for boardgame in boardgames:
-        boardgame = remove_parenthesis(boardgame)
-        boardgame = boardgame.replace('?', '')
-        boardgame = boardgame.replace('!', '')
-        boardgame = boardgame.replace(',', '')
-        boardgame = boardgame.replace(' ', '')
-        boardgame = boardgame.replace('&', 'N')
-        boardgame = boardgame.replace('–', ' #')
-        boardgame = boardgame.replace(':', ' #')  
-        boardgame = boardgame.replace('-', '')      
+def remove_non_number(string):
+    pattern = re.compile('[^0-9,.]')
+    cleaned_string = re.sub(pattern, '', string)
 
-        tags.append(f'#{boardgame}')
+    return cleaned_string
 
-    return tags
+
+def format_name(name):
+    name = remove_parenthesis(name)
+    name = name.replace('?', '')
+    name = name.replace('!', '')
+    name = name.replace(',', '')
+    name = name.replace(' ', '')
+    name = name.replace('&', 'N')
+    name = name.replace('–', ' #')
+    name = name.replace(':', ' #')  
+    name = name.replace('-', '')   
+
+    name = f'#{name}'   
+
+    return name
 
 
 def parse_data(offer, links, city, state):
@@ -133,6 +137,63 @@ def parse_data(offer, links, city, state):
     return output
 
 
+def assemble_message(adtype, text_list, output):
+    if len(text_list) > 0:        
+        if adtype == 'Venda':
+            output += "#VENDO\n\n"
+        
+        elif adtype == 'Troca':
+            output += "#TROCO\n\n"
+
+        else:
+            output += "#PROCURO\n\n"
+        
+        for ad in text_list:
+            output += f'{ad}\n\n'
+
+    return output
+
+
+def handle_data(data, int_keys):
+    sell = []
+    trade = []
+    search = []
+
+    for index in int_keys:
+        link = data[index].get('link')
+        source = get_source(link)
+
+        if validate_source(source):
+            name = format_name(router(link, source))
+            data[index]['name'] = name
+
+            formatted_name = data[index]["name"]
+            offer = data[index]['offer']
+            details = data[index]['details']
+
+            if offer == 'Venda':
+                price = remove_non_number(data[index]["price"])
+                message = f'{formatted_name} por {price} R$\n{details}'.strip()
+                sell.append(message)
+
+            elif offer == 'Troca':
+                message = f'{formatted_name}\n{details}'.strip()
+                trade.append(message)
+
+            else:
+                message = f'{formatted_name}\n{details}'.strip()
+                search.append(message)
+
+    output = ''
+
+    for adtype, text_list in zip(['Venda', 'Troca', 'Procura'], [sell, trade, search]):
+        output = assemble_message(adtype, text_list, output)
+
+    output += f'#{data["city"]} #{data["state"]}'
+
+    return output
+
+
 def repack(form_data):
     data = {}
     data['city'] = form_data.city.data
@@ -159,10 +220,9 @@ def home(data=None):
     form = MainForm()
     template_form = BoardGameForm(prefix='boardgames-_-')
 
-    if form.validate_on_submit():    
-        data, int_keys = repack(form)
-        #data    = parse_data(offer, link, city, state)
-        
+    if form.validate_on_submit(): 
+        ads, int_keys = repack(form)
+        data = handle_data(ads, int_keys)
         #redirect(url_for('home', data=data))
 
     return render_template('home.html', form=form, data=data, _template=template_form)

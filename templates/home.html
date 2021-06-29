@@ -24,9 +24,7 @@
         {% if data %}      
         <div class="row mt-3">
             <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12 col-12 mx-auto">
-                <textarea rows="6" id="tag-area" class="form-control border border-info" readonly>{% for row in data %}
-{{ row }}
-{% endfor %}</textarea>
+                <textarea rows="6" id="tag-area" class="form-control border border-info" readonly>{{ data }}</textarea>
                 <br>
                 <div class="d-grid gap-2">
                     <button class="btn btn-info" onclick="copy()">Copiar</button>
