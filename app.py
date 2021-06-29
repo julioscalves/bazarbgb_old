@@ -107,36 +107,6 @@ def format_name(name):
     return name
 
 
-def parse_data(offer, links, city, state):
-    output = []
-    links = links.split('\r')
-
-    if len(links) > 20:
-        links = links[:20]
-
-    if offer == 'Troca':
-        output.append('#TROCO')
-    elif offer == 'Venda':
-        output.append('#VENDO')
-    else:
-        output.append('#PROCURO')
-
-    boardgames = []
-
-    for link in links:
-        source = get_source(link)
-        
-        if validate_source(source):
-            boardgames.append(router(link, source))
-
-    for tag in assemble_tags(boardgames):
-        output.append(tag)
-
-    output.append(f'#{city.title().replace(" ", "")} #{state}')
-
-    return output
-
-
 def assemble_message(adtype, text_list, output):
     if len(text_list) > 0:        
         if adtype == 'Venda':
@@ -223,7 +193,6 @@ def home(data=None):
     if form.validate_on_submit(): 
         ads, int_keys = repack(form)
         data = handle_data(ads, int_keys)
-        #redirect(url_for('home', data=data))
 
     return render_template('home.html', form=form, data=data, _template=template_form)
 
