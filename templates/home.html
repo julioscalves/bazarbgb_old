@@ -33,12 +33,12 @@ body {
         {% endwith %}
     </div>
     {% if data %}      
-        <div class="row mt-1">
+        <div class="row mt-1 mb-5">
             <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12 col-12 mx-auto">
                 <textarea rows="6" id="tag-area" class="form-control border border-info" readonly>{{ data }}</textarea>
                 <br>
                 <div class="d-grid gap-2">
-                    <button class="btn btn-info" onclick="copy()">Copiar</button>
+                    <button class="btn btn-success" onclick="copy()">Copiar</button>
                 </div>
             </div> 
         </div> 
