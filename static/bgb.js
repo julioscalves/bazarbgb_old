@@ -61,13 +61,18 @@ function adjustIndices(removedIndex) {
  * Remove a form.
  */
 function removeForm() {
-    var $removedForm = $(this).closest('.subform');
-    var removedIndex = parseInt($removedForm.data('index'));
+    var confirmation = confirm("Quer remover este item?")
 
-    $removedForm.remove();
+    if (confirmation == true) {
+        var $removedForm = $(this).closest('.subform');
+        var removedIndex = parseInt($removedForm.data('index'));
 
-    // Update indices
-    adjustIndices(removedIndex);
+        $removedForm.remove();
+
+        // Update indices
+        adjustIndices(removedIndex);
+    }
+    
 }
 
 /**
