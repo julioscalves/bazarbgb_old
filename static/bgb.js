@@ -131,8 +131,12 @@ function addForm() {
 
 function copy() {
     let textArea = document.getElementById("tag-area");
-    textArea.select();
-    document.execCommand("copy");
+    if (navigator.share) {
+        navigator.share({text: textArea.value });
+    } else {
+        textArea.select();
+        document.execCommand("copy");
+    }
 }; 
 
 $(document).ready(function() {
