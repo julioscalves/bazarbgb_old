@@ -94,6 +94,8 @@ def remove_non_number(string):
 def format_name(name):
     name = remove_parenthesis(name)
     name = name.replace('?', '')
+    name = name.replace('"', '')
+    name = name.replace("'", '')
     name = name.replace('!', '')
     name = name.replace(',', '')
     name = name.replace(' ', '')
