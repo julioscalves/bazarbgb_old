@@ -6,6 +6,10 @@ body {
     background: rgb(113,178,128);
     background: linear-gradient(180deg, rgba(113,178,128,1) 0%, rgba(19,78,94,1) 100%);
 }
+
+.form-control::placeholder { 
+    color: rgba(150, 150, 150, 0.9)
+}
 {% endblock %}
 
 {% block content %}
@@ -63,17 +67,17 @@ body {
                                     </p>
                                 </div>
                             </div> 
-                            <div class="d-grid gap-2 mb-5">
-                                <a id="add" href="#" class="btn btn-primary btn-lg">Adicionar</a>
-                            </div>  
+                             
                             <div id="subforms-container">
                                 {% for subform in form.boardgames %}
                                     {{ macros.render_boardgame_form(subform, loop.index0) }}
                                 {% endfor %}
                             </div>
-                        
+                            <div class="d-grid gap-2 mb-2 mt-5">
+                                <button id="add" class="btn btn-primary btn-lg" type="button">Adicionar mais um item</button>
+                            </div> 
                             <div class="d-grid gap-2 mb-5">
-                                <button class="btn btn-success btn-lg" type="submit">Enviar</button>
+                                <button class="btn btn-success btn-lg">Enviar</button>
                             </div>    
                         </form>  
                         {% if form.errors %}

@@ -143,9 +143,7 @@ $(document).ready(function() {
 
     $("body").on("keyup change", ".detail-area", function() {
         const DESCRIPTION_MAX = 50
-
-        console.log()
-        console.log($(this).parent().parent().find("span").text(DESCRIPTION_MAX - $(this).val().length + " caracteres restantes."))
+        $(this).parent().parent().find("span").text(DESCRIPTION_MAX - $(this).val().length + " caracteres restantes.");
     });
 
     $("body").on("change", ".offer-type", function() {

@@ -8,7 +8,7 @@ from flask import Flask, flash, redirect, render_template, request, url_for
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+app.config['SECRET_KEY'] = "os.environ['SECRET_KEY']"
 
 
 def get_source(link):
@@ -143,7 +143,7 @@ def handle_data(data, int_keys):
 
             if offer == 'Venda':
                 price = remove_non_number(data[index]["price"])
-                message = f'{formatted_name} por {price} R$\n{details}'.strip()
+                message = f'{formatted_name} por R$ {price}\n{details}'.strip()
                 sell.append(message)
 
             elif offer == 'Troca':
@@ -159,7 +159,7 @@ def handle_data(data, int_keys):
     for adtype, text_list in zip(['Venda', 'Troca', 'Procura'], [sell, trade, search]):
         output = assemble_message(adtype, text_list, output)
 
-    output += f'#{data["city"]} #{data["state"]}'
+    output += f'#{data["city"].title().replace(" ", "")} #{data["state"]}'
 
     return output
 
