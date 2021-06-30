@@ -11,6 +11,27 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 
+def unpack_exceptions(content):
+    tag_exceptions = {}
+    content = [line for line in content if len(line) > 1]
+
+    for line in content:
+        split = line.strip().split('|')
+        tag_exceptions[split[0]] = split[1]
+
+    return tag_exceptions
+
+
+def get_tag_exceptions():
+    filename = 'exceptions.txt'
+
+    with open(filename) as tags:
+        content = tags.readlines()
+        tag_exceptions = unpack_exceptions(content)
+
+    return tag_exceptions
+
+
 def get_source(link):
     source = link.split('//')
     source = source[1].split('.')
@@ -200,6 +221,9 @@ def home(data=None):
         data = handle_data(ads, int_keys)
 
     return render_template('home.html', form=form, data=data, _template=template_form)
+
+
+tag_exceptions = get_tag_exceptions()
 
 
 if __name__ == "__main__":
