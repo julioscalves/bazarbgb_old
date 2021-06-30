@@ -8,7 +8,7 @@ from flask import Flask, flash, redirect, render_template, request, url_for
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "os.environ['SECRET_KEY']"
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 
 def get_source(link):
