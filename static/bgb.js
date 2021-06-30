@@ -130,7 +130,7 @@ function addForm() {
 }
 
 function copy() {
-    let textArea = document.getElementById("tag-area");
+    const textArea = document.getElementById("tag-area");
     if (navigator.share) {
         navigator.share({text: textArea.value });
     } else {
