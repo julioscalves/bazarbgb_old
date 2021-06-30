@@ -4,11 +4,11 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from forms import BoardGameForm, MainForm
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, flash, render_template
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "os.environ['SECRET_KEY']"
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 
 def get_source(link):
@@ -143,15 +143,15 @@ def handle_data(data, int_keys):
 
             if offer == 'Venda':
                 price = remove_non_number(data[index]["price"])
-                message = f'\t{formatted_name} por R$ {price}\n{details}'.rstrip()
+                message = f'\t\t{formatted_name} por R$ {price}\n\t\t{details}'.rstrip()
                 sell.append(message)
 
             elif offer == 'Troca':
-                message = f'\t{formatted_name}\n{details}'.rstrip()
+                message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
                 trade.append(message)
 
             else:
-                message = f'\t{formatted_name}\n{details}'.rstrip()
+                message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
                 search.append(message)
 
     output = ''
