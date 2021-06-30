@@ -159,7 +159,10 @@ def handle_data(data, int_keys):
     for adtype, text_list in zip(['Venda', 'Troca', 'Procura'], [sell, trade, search]):
         output = assemble_message(adtype, text_list, output)
 
-    output += f'#{data["city"].title().replace(" ", "")} #{data["state"]}'
+    city = data["city"].title().replace("-", "").replace(" ", "")
+    state = data["state"]
+
+    output += f'#{city} #{state}'
 
     return output
 
