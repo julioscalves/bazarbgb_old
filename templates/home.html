@@ -42,7 +42,7 @@ body {
                 <textarea rows="6" id="tag-area" class="form-control border border-info" readonly>{{ data }}</textarea>
                 <br>
                 <div class="d-grid gap-2">
-                    <button class="btn btn-success" onclick="copy()">Copiar</button>
+                    <button class="btn btn-success btn-lg" onclick="copy()"><i class="far fa-share-square"></i> Compartilhar</button>
                 </div>
             </div> 
         </div> 
@@ -74,10 +74,10 @@ body {
                                 {% endfor %}
                             </div>
                             <div class="d-grid gap-2 mb-2 mt-5">
-                                <button id="add" class="btn btn-primary btn-lg" type="button">Adicionar mais um item</button>
+                                <button id="add" class="btn btn-primary btn-lg" type="button"><i class="fas fa-plus-circle"></i> Adicionar mais um item</button>
                             </div> 
                             <div class="d-grid gap-2 mb-5">
-                                <button class="btn btn-success btn-lg">Enviar</button>
+                                <button class="btn btn-success btn-lg"><i class="far fa-paper-plane"></i> Enviar</button>
                             </div>    
                         </form>  
                         {% if form.errors %}
