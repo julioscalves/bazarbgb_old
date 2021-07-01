@@ -141,8 +141,8 @@ def remove_parenthesis(string):
 
 
 def remove_non_number(string):
-    # cleans non number characters from
-    # a string
+    # cleans non number characters from a 
+    # string
 
     pattern = re.compile('[^0-9,.]')
     cleaned_string = re.sub(pattern, '', string)
@@ -151,8 +151,8 @@ def remove_non_number(string):
 
 
 def format_name(name):
-    # remove and replace any special
-    # characters from a string
+    # remove and replace any special characters 
+    # from a string
 
     name = remove_parenthesis(name)
     name = name.replace('?', '')
@@ -165,6 +165,8 @@ def format_name(name):
     name = name.replace('–', ' #')
     name = name.replace(':', ' #')  
     name = name.replace('-', '')   
+    name = name.replace('/', '')   
+    name = name.replace('\\', '')   
 
     name = f'#{name}'   
 
@@ -172,8 +174,8 @@ def format_name(name):
 
 
 def assemble_message(adtype, text_list, output):
-    # groups and assemble each message
-    # into the output
+    # groups and assemble each message into 
+    # the output
 
     if len(text_list) > 0:        
         if adtype == 'Venda':

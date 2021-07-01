@@ -163,5 +163,5 @@ $(document).ready(function() {
             priceInput.removeAttr("required");
             priceArea.fadeOut(200);
         }
-      });
+    });
 });
