@@ -8,7 +8,11 @@ from flask import Flask, flash, render_template
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "os.environ['SECRET_KEY']"
+
+try:
+    app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+except KeyError:
+    app.config['SECRET_KEY'] = "KyYourv5FvgMikpw0yHYhJXvJtUM4YxcsRjoicvv"
 
 
 def unpack_exceptions(content):
