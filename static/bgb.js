@@ -150,7 +150,7 @@ $(document).ready(function() {
         $(this).parent().parent().find("span").text(DESCRIPTION_MAX - $(this).val().length + " caracteres restantes.");
     });
 
-    $("body").on("change", ".offer-type", function() {
+    $("body").on("click", ".offer-type", function() {
         let selectValue = $(this).val()
         let priceArea = $(this).parent("div").parent("div").find(".price-input").parent()
         let priceInput = $(this).parent("div").parent("div").find(".price-input")
