@@ -12,6 +12,9 @@ app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 
 def unpack_exceptions(content):
+    # unpacks the exceptions listed in the 'exceptions.txt'
+    # and returns them in a dictionary
+
     tag_exceptions = {}
     content = [line for line in content if len(line) > 1]
 
@@ -23,9 +26,13 @@ def unpack_exceptions(content):
 
 
 def get_tag_exceptions():
+    # opens the file where the exceptions are stored, 
+    # calls the unpack functions and returns the tags
+    # into a dictionary    
+
     filename = 'exceptions.txt'
 
-    with open(filename) as tags:
+    with open(filename, encoding='utf8') as tags:
         content = tags.readlines()
         tag_exceptions = unpack_exceptions(content)
 
@@ -33,6 +40,8 @@ def get_tag_exceptions():
 
 
 def get_source(link):
+    # returns the sources from a link
+
     source = link.split('//')
     source = source[1].split('.')
 
@@ -43,6 +52,9 @@ def get_source(link):
 
 
 def validate_source(source):
+    # returns if input source in in the accepted 
+    # sources
+
     valid_sources = [
         'comparajogos', 'boardgamegeek'
     ]
@@ -51,12 +63,20 @@ def validate_source(source):
 
 
 def get_comparajogos_slug(link):
+    # comparajogos' request works with the board
+    # game's slug, so this function extracts the
+    # slug from a comparajogos' source
+
     slug = link.split('/')[-1]
 
     return slug
 
 
 def get_comparajogos_data(link):
+    # comparajogos' request function
+    # thanks to renatoat
+
+
     url = 'https://api.comparajogos.com.br/v1/graphql'
     slug = get_comparajogos_slug(link)
     query = f'{{ product(where: {{slug: {{_eq: "{slug}"}}}}) {{ name }} }}'
@@ -69,6 +89,10 @@ def get_comparajogos_data(link):
 
 
 def build_boardgamegeek_api_link(link):
+    # bgg's api is a xml one, so this function
+    # places the xmlapi string into the url,
+    # calling the api 
+
     link = link.split('/')
     link.insert(3, 'xmlapi')
     link = '/'.join(link)
@@ -77,25 +101,27 @@ def build_boardgamegeek_api_link(link):
 
 
 def get_boardgamegeek_data(link):
-    try:
-        url = build_boardgamegeek_api_link(link)
-        request = requests.get(url)
-        soup = BeautifulSoup(request.text, 'lxml')
-        boardgame = soup.find('name', attrs={'primary': 'true'}).text
+    url = build_boardgamegeek_api_link(link)
+    request = requests.get(url)
+    soup = BeautifulSoup(request.text, 'lxml')
+    boardgame = soup.find('name', attrs={'primary': 'true'}).text
 
-        return boardgame
-
-    except:
-        flash(f'ocorreu um erro. verifique se o link informado está \
-                dentro dos padrões esperados e tente novamente')
+    return boardgame
 
 
 def router(link, source):
-    if source == 'comparajogos':
-        return get_comparajogos_data(link)
+    try:
 
-    elif source == 'boardgamegeek':
-        return get_boardgamegeek_data(link)
+        if source == 'comparajogos':
+            return get_comparajogos_data(link)
+
+        elif source == 'boardgamegeek':
+            return get_boardgamegeek_data(link)
+
+    except:
+        flash(f'ocorreu um erro. verifique se o link informado está \
+                dentro dos padrões esperados, se o site está online \
+                e tente novamente')
 
 
 def remove_parenthesis(string):
@@ -148,6 +174,9 @@ def assemble_message(adtype, text_list, output):
 
 
 def handle_data(data, int_keys):
+    print(tag_exceptions)
+
+
     sell = []
     trade = []
     search = []
@@ -164,6 +193,9 @@ def handle_data(data, int_keys):
             offer = data[index]['offer']
             details = data[index]['details']
 
+            if formatted_name in tag_exceptions.keys():
+                formatted_name = tag_exceptions[formatted_name]
+
             if offer == 'Venda':
                 price = remove_non_number(data[index]["price"])
                 message = f'\t\t{formatted_name} por R$ {price}\n\t\t{details}'.rstrip()
@@ -176,6 +208,12 @@ def handle_data(data, int_keys):
             else:
                 message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
                 search.append(message)
+
+        else:
+            flash(f'Este site, {source.title()}, não é permitido.\n\n \
+                    Por favor, utilize o BoardGameGeek ou o ComparaJogos.')
+
+            return None
 
     output = ''
 
