@@ -8,7 +8,7 @@ from flask import Flask, flash, render_template
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+app.config['SECRET_KEY'] = "os.environ['SECRET_KEY']"
 
 
 def unpack_exceptions(content):
@@ -165,9 +165,12 @@ def format_name(name):
     name = name.replace('–', ' #')
     name = name.replace(':', ' #')  
     name = name.replace('-', '')   
-    name = name.replace('/', '')   
-    name = name.replace('\\', '')   
-
+    name = name.replace('/', ' #')   
+    name = name.replace('\\', ' #')   
+    name = name.replace('.', '') 
+    name = name.replace('?', '') 
+    name = name.replace('¿', '') 
+    
     name = f'#{name}'   
 
     return name
