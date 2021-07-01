@@ -42,13 +42,17 @@ def get_tag_exceptions():
 def get_source(link):
     # returns the sources from a link
 
-    source = link.split('//')
-    source = source[1].split('.')
+    try:
+        source = link.split('//')
+        source = source[1].split('.')
 
-    if 'www' in source:
-        return source[1]
+        if 'www' in source:
+            return source[1]
+        
+        return source[0]
     
-    return source[0]
+    except:  
+        return None
 
 
 def validate_source(source):
@@ -122,7 +126,7 @@ def router(link, source):
             return get_boardgamegeek_data(link)
 
     except:
-        flash(f'ocorreu um erro. verifique se o link informado está \
+        flash(f'Ocorreu um erro. verifique se o link informado está \
                 dentro dos padrões esperados, se o site está online \
                 e tente novamente')
 
@@ -227,10 +231,16 @@ def handle_data(data, int_keys):
                 search.append(message)
 
         else:
-            flash(f'Este site, {source.title()}, não é permitido.\n\n \
-                    Por favor, utilize o BoardGameGeek ou o ComparaJogos.')
+            try:
+                flash(f'Este site, {source.title()}, não é permitido.\n\n \
+                        Por favor, utilize o BoardGameGeek ou o ComparaJogos.')
 
-            return None
+            except AttributeError:
+                flash(f'Um link inválido foi informado. \n\n \
+                        Por favor, utilize o BoardGameGeek ou o ComparaJogos.')
+
+            finally:
+                return None
 
     output = ''
 
@@ -253,6 +263,7 @@ def repack(form_data):
     data['state'] = form_data.state.data
 
     index = 1
+
     for games in form_data.boardgames.data:            
         data[index] = {
             'link'      : games['link'],
