@@ -74,8 +74,6 @@ def get_comparajogos_slug(link):
 
 def get_comparajogos_data(link):
     # comparajogos' request function
-    # thanks to renatoat
-
 
     url = 'https://api.comparajogos.com.br/v1/graphql'
     slug = get_comparajogos_slug(link)
@@ -90,8 +88,7 @@ def get_comparajogos_data(link):
 
 def build_boardgamegeek_api_link(link):
     # bgg's api is a xml one, so this function
-    # places the xmlapi string into the url,
-    # calling the api 
+    # places the xmlapi string into the url
 
     link = link.split('/')
     link.insert(3, 'xmlapi')
@@ -101,6 +98,8 @@ def build_boardgamegeek_api_link(link):
 
 
 def get_boardgamegeek_data(link):
+    # bgg request function
+
     url = build_boardgamegeek_api_link(link)
     request = requests.get(url)
     soup = BeautifulSoup(request.text, 'lxml')
@@ -110,6 +109,10 @@ def get_boardgamegeek_data(link):
 
 
 def router(link, source):
+    # redirects each link to its function 
+    # based on its source. otherwise, it
+    # displays an error message 
+
     try:
 
         if source == 'comparajogos':
@@ -125,6 +128,8 @@ def router(link, source):
 
 
 def remove_parenthesis(string):
+    # cleans parenthesis from a string
+
     pattern = re.compile('[\(\[].*?[\)\]]')
     cleaned_string = re.sub(pattern, '', string)
 
@@ -132,6 +137,9 @@ def remove_parenthesis(string):
 
 
 def remove_non_number(string):
+    # cleans non number characters from
+    # a string
+
     pattern = re.compile('[^0-9,.]')
     cleaned_string = re.sub(pattern, '', string)
 
@@ -139,6 +147,9 @@ def remove_non_number(string):
 
 
 def format_name(name):
+    # remove and replace any special
+    # characters from a string
+
     name = remove_parenthesis(name)
     name = name.replace('?', '')
     name = name.replace('"', '')
@@ -157,6 +168,9 @@ def format_name(name):
 
 
 def assemble_message(adtype, text_list, output):
+    # groups and assemble each message
+    # into the output
+
     if len(text_list) > 0:        
         if adtype == 'Venda':
             output += "#VENDO\n\n"
@@ -174,8 +188,11 @@ def assemble_message(adtype, text_list, output):
 
 
 def handle_data(data, int_keys):
-    print(tag_exceptions)
-
+    # this is the main function, which is
+    # responsible for handling the data and
+    # calls the helper functions to get the
+    # boardgames' names, assemble the messages
+    # and returns them into a string
 
     sell = []
     trade = []
@@ -229,6 +246,8 @@ def handle_data(data, int_keys):
 
 
 def repack(form_data):
+    # repacks the request form into a dictionary
+
     data = {}
     data['city'] = form_data.city.data
     data['state'] = form_data.state.data
@@ -263,6 +282,5 @@ def home(data=None):
 
 tag_exceptions = get_tag_exceptions()
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
