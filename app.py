@@ -189,7 +189,7 @@ def assemble_message(adtype, text_list, output):
 
     if len(text_list) > 0:        
         if adtype == 'Venda':
-            output += "#VENDO\n\n"
+            output += "VENDO\n\n"
         
         elif adtype == 'Troca':
             output += "#TROCO\n\n"
