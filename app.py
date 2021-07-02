@@ -123,7 +123,6 @@ def router(link, source):
     # displays an error message 
 
     try:
-
         if source == 'comparajogos':
             return get_comparajogos_data(link)
 
@@ -250,8 +249,7 @@ def handle_data(data, int_keys):
                         Por favor, utilize o BoardGameGeek ou o ComparaJogos \
                         e verifique se o link está correto.')
 
-        finally:
-            return None
+                return None
 
     output = ''
 
@@ -305,4 +303,4 @@ def home(data=None):
 tag_exceptions = get_tag_exceptions()
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
