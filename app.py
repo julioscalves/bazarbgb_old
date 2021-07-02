@@ -1,7 +1,6 @@
 import os
 import re
 import json
-from typing import Type
 import requests
 from bs4 import BeautifulSoup
 from forms import BoardGameForm, MainForm
