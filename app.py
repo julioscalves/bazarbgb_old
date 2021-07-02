@@ -123,7 +123,6 @@ def router(link, source):
     # displays an error message 
 
     try:
-
         if source == 'comparajogos':
             return get_comparajogos_data(link)
 
