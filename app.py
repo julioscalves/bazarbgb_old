@@ -181,7 +181,7 @@ def format_name(name):
         return name
 
     except TypeError:
-        raise Exception('tipo inválido de link recebido')
+        raise Exception('link inválido')
         
 
 def assemble_message(adtype, text_list, output):
@@ -243,6 +243,9 @@ def handle_data(data, int_keys):
                 else:
                     message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
                     search.append(message)
+            
+            else:
+                raise Exception('link inválido')
 
         except:
                 flash(f'Um link inválido foi informado. \n\n \
