@@ -1,6 +1,7 @@
 import os
 import re
 import json
+from typing import Type
 import requests
 from bs4 import BeautifulSoup
 from forms import BoardGameForm, MainForm
@@ -130,9 +131,9 @@ def router(link, source):
             return get_boardgamegeek_data(link)
 
     except:
-        flash(f'Ocorreu um erro. verifique se o link informado está \
-                dentro dos padrões esperados, se o site está online \
-                e tente novamente')
+        flash(f'Verifique se o link informado está dentro dos \
+                padrões esperados e o site está online antes  \
+                de tentar novamente')
 
 
 def remove_parenthesis(string):
@@ -158,27 +159,31 @@ def format_name(name):
     # remove and replace any special characters 
     # from a string
 
-    name = remove_parenthesis(name)
-    name = name.replace('?', '')
-    name = name.replace('"', '')
-    name = name.replace("'", '')
-    name = name.replace('!', '')
-    name = name.replace(',', '')
-    name = name.replace(' ', '')
-    name = name.replace('&', 'N')
-    name = name.replace('–', ' #')
-    name = name.replace(':', ' #')  
-    name = name.replace('-', '')   
-    name = name.replace('/', ' #')   
-    name = name.replace('\\', ' #')   
-    name = name.replace('.', '') 
-    name = name.replace('?', '') 
-    name = name.replace('¿', '') 
-    
-    name = f'#{name}'   
+    try:
+        name = remove_parenthesis(name)
+        name = name.replace('?', '')
+        name = name.replace('"', '')
+        name = name.replace("'", '')
+        name = name.replace('!', '')
+        name = name.replace(',', '')
+        name = name.replace(' ', '')
+        name = name.replace('&', 'N')
+        name = name.replace('–', ' #')
+        name = name.replace(':', ' #')  
+        name = name.replace('-', '')   
+        name = name.replace('/', ' #')   
+        name = name.replace('\\', ' #')   
+        name = name.replace('.', '') 
+        name = name.replace('?', '') 
+        name = name.replace('¿', '') 
+        
+        name = f'#{name}'   
 
-    return name
+        return name
 
+    except TypeError:
+        raise Exception('tipo inválido de link recebido')
+        
 
 def assemble_message(adtype, text_list, output):
     # groups and assemble each message into 
@@ -215,41 +220,38 @@ def handle_data(data, int_keys):
         link = data[index].get('link')
         source = get_source(link)
 
-        if validate_source(source):
-            name = format_name(router(link, source))
-            data[index]['name'] = name
+        try:
+            if validate_source(source):
+                name = format_name(router(link, source))
+                data[index]['name'] = name
 
-            formatted_name = data[index]["name"]
-            offer = data[index]['offer']
-            details = data[index]['details']
+                formatted_name = data[index]["name"]
+                offer = data[index]['offer']
+                details = data[index]['details']
 
-            if formatted_name in tag_exceptions.keys():
-                formatted_name = tag_exceptions[formatted_name]
+                if formatted_name in tag_exceptions.keys():
+                    formatted_name = tag_exceptions[formatted_name]
 
-            if offer == 'Venda':
-                price = remove_non_number(data[index]["price"])
-                message = f'\t\t{formatted_name} por R$ {price}\n\t\t{details}'.rstrip()
-                sell.append(message)
+                if offer == 'Venda':
+                    price = remove_non_number(data[index]["price"])
+                    message = f'\t\t{formatted_name} por R$ {price}\n\t\t{details}'.rstrip()
+                    sell.append(message)
 
-            elif offer == 'Troca':
-                message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
-                trade.append(message)
+                elif offer == 'Troca':
+                    message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
+                    trade.append(message)
 
-            else:
-                message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
-                search.append(message)
+                else:
+                    message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
+                    search.append(message)
 
-        else:
-            try:
-                flash(f'Este site, {source.title()}, não é permitido.\n\n \
-                        Por favor, utilize o BoardGameGeek ou o ComparaJogos.')
-
-            except AttributeError:
+        except:
                 flash(f'Um link inválido foi informado. \n\n \
-                        Por favor, utilize o BoardGameGeek ou o ComparaJogos.')
+                        Por favor, utilize o BoardGameGeek ou o ComparaJogos \
+                        e verifique se o link está correto.')
 
-            finally:
-                return None
+        finally:
+            return None
 
     output = ''
 
