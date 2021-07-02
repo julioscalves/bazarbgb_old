@@ -1,7 +1,6 @@
 import os
 import re
 import json
-from typing import Type
 import requests
 from bs4 import BeautifulSoup
 from forms import BoardGameForm, MainForm
@@ -306,4 +305,4 @@ def home(data=None):
 tag_exceptions = get_tag_exceptions()
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
