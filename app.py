@@ -305,4 +305,4 @@ def home(data=None):
 tag_exceptions = get_tag_exceptions()
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
