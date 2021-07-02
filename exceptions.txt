@@ -46,7 +46,6 @@
 #BANGTheDiceGame|#BANG #TheDiceGame
 #BANGTheBullet|#BANG #TheBullet
 #BANGTheDuel|#BANG #TheDuel
-#BANG #TheWalkingDead|
 #BangTheDiceGame #TheWalkingDead|#Bang #TheDiceGame #TheWalkingDead
 #BANGArmedNDangerous|#BANG #ArmedNDangerous
 #BANGDodgeCity|#BANG #DodgeCity
