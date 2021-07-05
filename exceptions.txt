@@ -23,19 +23,10 @@
 #ElGrandeBigBox|#ElGrande Big Box
 #CarcassonnePlus2017|#Carcassonne #Plus 2017
 #CarcassonnePlus|#Carcassonne #Plus
-#Imperial2030|#Imperial 2030
 #FalloutShelter #TheBoardGame|#Fallout #Shelter #TheBoardGame
 #SmallWorldUnderground|#SmallWorld #Underground
 #SmallWorldofWarcraft|#SmallWorld #SmallWorldofWarcraft
-#Caylus1303|#Caylus 1303
 #Claim2|#Claim 2
-#Deadwood1876|#Deadwood 1876
-#Salem1692|#Salem 1692
-#Tortuga1667|#Tortuga 1667
-#Bristol1350|#Bristol 1350
-#Bruxelles1897|#Bruxelles 1897
-#Pegaem6|#PegaemSeis
-#Pegaem6 #25Anos|#PegaemSeis #25Anos
 #ModernArtCardGame|#ModernArt #CardGame
 #Dwar7sInverno|#Dwar7s #Inverno
 #Dwar7sSpring|#Dwar7s #Spring
@@ -46,7 +37,6 @@
 #BANGTheDiceGame|#BANG #TheDiceGame
 #BANGTheBullet|#BANG #TheBullet
 #BANGTheDuel|#BANG #TheDuel
-#BANG #TheWalkingDead|
 #BangTheDiceGame #TheWalkingDead|#Bang #TheDiceGame #TheWalkingDead
 #BANGArmedNDangerous|#BANG #ArmedNDangerous
 #BANGDodgeCity|#BANG #DodgeCity
@@ -57,3 +47,10 @@
 #BANGTheDiceGame #UndeadorAlive|#BANG #TheDiceGame #UndeadorAlive
 #BANGTheValleyofShadows|#BANG #TheValleyofShadows
 #BANGWildWestShow|#BANG #WildWestShow
+#Sagrada #56PlayerExpansion|#Sagrada #5N6PlayerExpansion
+#Gùgōng|#Gugong
+#Gùgōng #Pànjūn|#Gugong #Panjun
+#Risk2210AD|#Risk #2210AD
+#RiskEurope|#Risk #Europe
+#RiskLegacy|#Risk #Legacy
+#ZombicideGreenHorde|#Zombicide #GreenHorde
