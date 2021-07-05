@@ -150,7 +150,7 @@ $(document).ready(function() {
         $(this).parent().parent().find("span").text(DESCRIPTION_MAX - $(this).val().length + " caracteres restantes.");
     });
 
-    $("body").on("click", ".offer-type", function() {
+    $(document).on("click", ".offer-type", function() {
         let selectValue = $(this).val()
         let priceArea = $(this).parent("div").parent("div").find(".price-input").parent()
         let priceInput = $(this).parent("div").parent("div").find(".price-input")
@@ -164,4 +164,47 @@ $(document).ready(function() {
             priceArea.fadeOut(200);
         }
     });
+
+    $(document).on("focus", ".bg-autocomplete", function() {
+        $(".bg-autocomplete").autocomplete({
+            delay: 400,
+            source:function(request, response) {
+                $.getJSON("/bgsearch",{ 
+                    bgquery: request.term,
+                }, function(data) {
+                    response(data.bglist);
+                });
+            },
+            minLength: 3,
+        });
+    })
+
+    $(document).on("focus", "#city", function() {
+        var url = 'https://gist.githubusercontent.com/letanure/3012978/raw/2e43be5f86eef95b915c1c804ccc86dc9790a50a/estados-cidades.json'
+        var state = $("#states").val()
+  
+      $("#city").autocomplete({
+        delay: 250,
+          source: function(request, response) {
+              $.getJSON(url, { 
+                  bgquery: request.term,
+              }, function(data) {
+                typing = $("#city").val()
+  
+                const citiesState = data.estados.filter(function(item) {
+                  if (item.sigla == state) {
+                    return item.cidades
+                  }
+                })
+  
+                let cities = citiesState[0].cidades.filter(function(city) {
+                  return city.startsWith(typing)
+                })
+  
+                response(cities)
+              });
+          },
+          minLength: 2,
+      });
+  })
 });

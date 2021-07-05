@@ -1,10 +1,9 @@
 import os
 import re
-import json
-import requests
-from bs4 import BeautifulSoup
+from flask.globals import request
+from flask_sqlalchemy import SQLAlchemy
 from forms import BoardGameForm, MainForm
-from flask import Flask, flash, render_template
+from flask import Flask, flash, render_template, jsonify
 
 
 app = Flask(__name__)
@@ -13,6 +12,12 @@ try:
     app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 except KeyError:
     app.config['SECRET_KEY'] = "KyYourv5FvgMikpw0yHYhJXvJtUM4YxcsRjoicvv"
+
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///names.db'
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db = SQLAlchemy(app)
+db.init_app(app)
 
 
 def unpack_exceptions(content):
@@ -41,97 +46,10 @@ def get_tag_exceptions():
         tag_exceptions = unpack_exceptions(content)
 
     return tag_exceptions
-
-
-def get_source(link):
-    # returns the sources from a link
-
-    try:
-        source = link.split('//')
-        source = source[1].split('.')
-
-        if 'www' in source:
-            return source[1]
-        
-        return source[0]
-    
-    except:  
-        return None
-
-
-def validate_source(source):
-    # returns if input source in in the accepted 
-    # sources
-
-    valid_sources = [
-        'comparajogos', 'boardgamegeek'
-    ]
-
-    return source in valid_sources
-
-
-def get_comparajogos_slug(link):
-    # comparajogos' request works with the board
-    # game's slug, so this function extracts the
-    # slug from a comparajogos' source
-
-    slug = link.split('/')[-1]
-
-    return slug
-
-
-def get_comparajogos_data(link):
-    # comparajogos' request function
-
-    url = 'https://api.comparajogos.com.br/v1/graphql'
-    slug = get_comparajogos_slug(link)
-    query = f'{{ product(where: {{slug: {{_eq: "{slug}"}}}}) {{ name }} }}'
-
-    response = requests.post(url, json={'query': query})
-    json_data = json.loads(response.text)
-    name = json_data['data']['product'][0]['name']
-
-    return name
-
-
-def build_boardgamegeek_api_link(link):
-    # bgg's api is a xml one, so this function
-    # places the xmlapi string into the url
-
-    link = link.split('/')
-    link.insert(3, 'xmlapi')
-    link = '/'.join(link)
-
-    return link
-
-
-def get_boardgamegeek_data(link):
-    # bgg request function
-
-    url = build_boardgamegeek_api_link(link)
-    request = requests.get(url)
-    soup = BeautifulSoup(request.text, 'lxml')
-    boardgame = soup.find('name', attrs={'primary': 'true'}).text
-
-    return boardgame
-
-
-def router(link, source):
-    # redirects each link to its function 
-    # based on its source. otherwise, it
-    # displays an error message 
-
-    try:
-        if source == 'comparajogos':
-            return get_comparajogos_data(link)
-
-        elif source == 'boardgamegeek':
-            return get_boardgamegeek_data(link)
-
-    except:
-        flash(f'Verifique se o link informado está dentro dos \
-                padrões esperados e o site está online antes  \
-                de tentar novamente')
+class Names(db.Model):
+    __tablename__ = "boardgames"
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    name = db.Column(db.String)
 
 
 def remove_parenthesis(string):
@@ -157,31 +75,27 @@ def format_name(name):
     # remove and replace any special characters 
     # from a string
 
-    try:
-        name = remove_parenthesis(name)
-        name = name.replace('?', '')
-        name = name.replace('"', '')
-        name = name.replace("'", '')
-        name = name.replace('!', '')
-        name = name.replace(',', '')
-        name = name.replace(' ', '')
-        name = name.replace('&', 'N')
-        name = name.replace('–', ' #')
-        name = name.replace(':', ' #')  
-        name = name.replace('-', '')   
-        name = name.replace('/', ' #')   
-        name = name.replace('\\', ' #')   
-        name = name.replace('.', '') 
-        name = name.replace('?', '') 
-        name = name.replace('¿', '') 
-        
-        name = f'#{name}'   
+    name = remove_parenthesis(name)
+    name = name.replace('?', '')
+    name = name.replace('"', '')
+    name = name.replace("'", '')
+    name = name.replace('!', '')
+    name = name.replace(',', '')
+    name = name.replace(' ', '')
+    name = name.replace('&', 'N')
+    name = name.replace('–', ' #')
+    name = name.replace(':', ' #')  
+    name = name.replace('-', '')   
+    name = name.replace('/', ' #')   
+    name = name.replace('\\', ' #')   
+    name = name.replace('.', '') 
+    name = name.replace('?', '') 
+    name = name.replace('¿', '') 
+    
+    name = f'#{name}'   
 
-        return name
-
-    except TypeError:
-        raise Exception('link inválido')
-        
+    return name
+    
 
 def assemble_message(adtype, text_list, output):
     # groups and assemble each message into 
@@ -215,43 +129,29 @@ def handle_data(data, int_keys):
     search = []
 
     for index in int_keys:
-        link = data[index].get('link')
-        source = get_source(link)
+        boardgame = data[index].get('boardgame')
+        formatted_name = format_name(boardgame)
 
-        try:
-            if validate_source(source):
-                name = format_name(router(link, source))
-                data[index]['name'] = name
+        data[index]['name'] = formatted_name
+        formatted_name = data[index]['name']
+        offer = data[index]['offer']
+        details = data[index]['details']
 
-                formatted_name = data[index]["name"]
-                offer = data[index]['offer']
-                details = data[index]['details']
+        if formatted_name in tag_exceptions.keys():
+            formatted_name = tag_exceptions[formatted_name]
 
-                if formatted_name in tag_exceptions.keys():
-                    formatted_name = tag_exceptions[formatted_name]
+        if offer == 'Venda':
+            price = remove_non_number(data[index]["price"])
+            message = f'\t\t{formatted_name} por R$ {price}\n\t\t{details}'.rstrip()
+            sell.append(message)
 
-                if offer == 'Venda':
-                    price = remove_non_number(data[index]["price"])
-                    message = f'\t\t{formatted_name} por R$ {price}\n\t\t{details}'.rstrip()
-                    sell.append(message)
+        elif offer == 'Troca':
+            message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
+            trade.append(message)
 
-                elif offer == 'Troca':
-                    message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
-                    trade.append(message)
-
-                else:
-                    message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
-                    search.append(message)
-            
-            else:
-                raise Exception('link inválido')
-
-        except:
-                flash(f'Um link inválido foi informado. \n\n \
-                        Por favor, utilize o BoardGameGeek ou o ComparaJogos \
-                        e verifique se o link está correto.')
-
-                return None
+        else:
+            message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
+            search.append(message)
 
     output = ''
 
@@ -277,7 +177,7 @@ def repack(form_data):
 
     for games in form_data.boardgames.data:            
         data[index] = {
-            'link'      : games['link'],
+            'boardgame' : games['boardgame'],
             'offer'     : games['offer'],
             'name'      : '',
             'price'     : games['price'],
@@ -288,6 +188,15 @@ def repack(form_data):
     int_keys = list(filter(lambda i: type(i) == int, data.keys()))
 
     return data, int_keys
+
+
+@app.route('/bgsearch')
+def searchbg():
+    name = request.args.get('bgquery')
+    dbquery = Names.query.filter(Names.name.like(f'%{name}%')).all()
+    results = [result.name for result in dbquery][:10]
+    
+    return jsonify(bglist=results)
 
 
 @app.route("/", methods=['GET', 'POST'])

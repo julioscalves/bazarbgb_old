@@ -18,11 +18,11 @@ OFFER = [
 ]
 
 class BoardGameForm(FlaskForm):
-    offer   = SelectField('Tipo', choices=OFFER)
-    link    = StringField('Link', validators=[InputRequired()])
-    details = StringField('Detalhes', validators=[Length(max=50)])
-    price   = StringField('Preço', validators=[Length(max=8)])
-    submit  = SubmitField('Enviar')
+    offer       = SelectField('Tipo', choices=OFFER)
+    boardgame   = StringField('Nome', validators=[InputRequired()])
+    details     = StringField('Detalhes', validators=[Length(max=50)])
+    price       = StringField('Preço', validators=[Length(max=8)])
+    submit      = SubmitField('Enviar')
 
 class MainForm(FlaskForm):
     boardgames = FieldList(FormField(BoardGameForm), min_entries=1, max_entries=20)
