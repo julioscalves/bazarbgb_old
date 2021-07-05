@@ -53,3 +53,4 @@
 #Risk2210AD|#Risk #2210AD
 #RiskEurope|#Risk #Europe
 #RiskLegacy|#Risk #Legacy
+#ZombicideGreenHorde|#Zombicide #GreenHorde
