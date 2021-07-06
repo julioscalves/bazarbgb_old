@@ -139,6 +139,16 @@ function copy() {
     }
 }; 
 
+function toTitleCase(string) {
+    var titleCase = string.toLowerCase().split(' ');
+
+    for (var i = 0; i < titleCase.length; i++) {
+        titleCase[i] = titleCase[i].charAt(0).toUpperCase() + titleCase[i].substring(1);
+    }
+
+    return titleCase.join(' ');
+}
+
 $(document).ready(function() {
     $('#add').click(addForm);
     $('.remove').click(removeForm);
@@ -189,7 +199,8 @@ $(document).ready(function() {
               $.getJSON(url, { 
                   bgquery: request.term,
               }, function(data) {
-                typing = $("#city").val()
+                typing = toTitleCase($("#city").val())
+                console.log(typing)
   
                 const citiesState = data.estados.filter(function(item) {
                   if (item.sigla == state) {

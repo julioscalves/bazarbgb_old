@@ -23,6 +23,7 @@ class Names(db.Model):
     __tablename__ = "boardgames"
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String)
+    tag = db.Column(db.String)
 
 
 def unpack_exceptions(content):
@@ -131,7 +132,12 @@ def handle_data(data, int_keys):
 
     for index in int_keys:
         boardgame = data[index].get('boardgame')
-        formatted_name = format_name(boardgame)
+        boardgame_tag_query = Names.query.filter_by(name=boardgame).all()
+
+        if len(boardgame_tag_query) > 0:
+            formatted_name = boardgame_tag_query[0].tag
+        else:
+            formatted_name = format_name(boardgame)
 
         data[index]['name'] = formatted_name
         formatted_name = data[index]['name']
