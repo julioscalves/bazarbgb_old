@@ -26,7 +26,6 @@
 #FalloutShelter #TheBoardGame|#Fallout #Shelter #TheBoardGame
 #SmallWorldUnderground|#SmallWorld #Underground
 #SmallWorldofWarcraft|#SmallWorld #SmallWorldofWarcraft
-#Claim2|#Claim 2
 #ModernArtCardGame|#ModernArt #CardGame
 #Dwar7sInverno|#Dwar7s #Inverno
 #Dwar7sSpring|#Dwar7s #Spring
@@ -54,3 +53,4 @@
 #RiskEurope|#Risk #Europe
 #RiskLegacy|#Risk #Legacy
 #ZombicideGreenHorde|#Zombicide #GreenHorde
+#MarvelComicHunters|#Marvel #ComicHunters
