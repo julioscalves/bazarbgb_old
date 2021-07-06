@@ -3,7 +3,7 @@ import re
 from flask.globals import request
 from flask_sqlalchemy import SQLAlchemy
 from forms import BoardGameForm, MainForm
-from flask import Flask, flash, render_template, jsonify
+from flask import Flask, render_template, jsonify
 
 
 app = Flask(__name__)
@@ -18,6 +18,11 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 db.init_app(app)
+
+class Names(db.Model):
+    __tablename__ = "boardgames"
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    name = db.Column(db.String)
 
 
 def unpack_exceptions(content):
@@ -46,10 +51,6 @@ def get_tag_exceptions():
         tag_exceptions = unpack_exceptions(content)
 
     return tag_exceptions
-class Names(db.Model):
-    __tablename__ = "boardgames"
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    name = db.Column(db.String)
 
 
 def remove_parenthesis(string):
