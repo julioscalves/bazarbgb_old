@@ -26,34 +26,6 @@ class Names(db.Model):
     tag = db.Column(db.String)
 
 
-def unpack_exceptions(content):
-    # unpacks the exceptions listed in the 'exceptions.txt'
-    # and returns them in a dictionary
-
-    tag_exceptions = {}
-    content = [line for line in content if len(line) > 1]
-
-    for line in content:
-        split = line.strip().split('|')
-        tag_exceptions[split[0]] = split[1]
-
-    return tag_exceptions
-
-
-def get_tag_exceptions():
-    # opens the file where the exceptions are stored, 
-    # calls the unpack functions and returns the tags
-    # into a dictionary    
-
-    filename = 'exceptions.txt'
-
-    with open(filename, encoding='utf8') as tags:
-        content = tags.readlines()
-        tag_exceptions = unpack_exceptions(content)
-
-    return tag_exceptions
-
-
 def remove_parenthesis(string):
     # cleans parenthesis from a string
 
@@ -144,9 +116,6 @@ def handle_data(data, int_keys):
         offer = data[index]['offer']
         details = data[index]['details']
 
-        if formatted_name in tag_exceptions.keys():
-            formatted_name = tag_exceptions[formatted_name]
-
         if offer == 'Venda':
             price = remove_non_number(data[index]["price"])
             message = f'\t\t{formatted_name} por R$ {price}\n\t\t{details}'.rstrip()
@@ -165,7 +134,7 @@ def handle_data(data, int_keys):
     for adtype, text_list in zip(['Venda', 'Troca', 'Procura'], [sell, trade, search]):
         output = assemble_message(adtype, text_list, output)
 
-    city = data["city"].title().replace("-", "").replace(" ", "")
+    city = data["city"].title().replace("-", "").replace(" ", "").replace("'", "")
     state = data["state"]
 
     output += f'#{city} #{state}'
@@ -217,8 +186,6 @@ def home(data=None):
 
     return render_template('home.html', form=form, data=data, _template=template_form)
 
-
-tag_exceptions = get_tag_exceptions()
 
 if __name__ == "__main__":
     app.run()
