@@ -1,6 +1,6 @@
 from flask.app import Flask
 from flask_wtf import FlaskForm
-from wtforms import FieldList, FormField, StringField, SelectField, SubmitField
+from wtforms import FieldList, FormField, TextAreaField, StringField, SelectField, SubmitField
 from wtforms.validators import InputRequired, Length
 
 
@@ -14,17 +14,18 @@ STATES = [
     ]
 
 OFFER = [
-    ('Venda'), ('Troca'), ('Procura')
+    ('Apenas Venda'), ('Apenas Troca'), ('Venda ou Troca'), ('Leilão'), ('Procura')
 ]
 
 class BoardGameForm(FlaskForm):
     offer       = SelectField('Tipo', choices=OFFER)
     boardgame   = StringField('Nome', validators=[InputRequired()])
-    details     = StringField('Detalhes', validators=[Length(max=50)])
+    details     = StringField('Detalhes sobre o item', validators=[Length(max=80)])
     price       = StringField('Preço', validators=[Length(max=8)])
     submit      = SubmitField('Enviar')
 
 class MainForm(FlaskForm):
-    boardgames = FieldList(FormField(BoardGameForm), min_entries=1, max_entries=20)
-    city       = StringField('Cidade', validators=[InputRequired()])
-    state      = SelectField('Estado', choices=STATES)
+    boardgames      = FieldList(FormField(BoardGameForm), min_entries=1, max_entries=20)
+    city            = StringField('Cidade', validators=[InputRequired()])
+    state           = SelectField('Estado', choices=STATES)
+    general_details = TextAreaField('Detalhes sobre o anúncio', render_kw={"rows": 4, "cols": 4}, validators=[Length(max=200)])

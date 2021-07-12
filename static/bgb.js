@@ -153,19 +153,24 @@ $(document).ready(function() {
     $('#add').click(addForm);
     $('.remove').click(removeForm);
     $('body').css('display', 'none');
-    $('body').fadeIn(500);
+    $('body').fadeIn(400);
 
     $("body").on("keyup change", ".detail-area", function() {
-        const DESCRIPTION_MAX = 50
+        const DESCRIPTION_MAX = 80;
         $(this).parent().parent().find("span").text(DESCRIPTION_MAX - $(this).val().length + " caracteres restantes.");
     });
 
+    $("body").on("keyup change", "#general_details", function() {
+        const DESCRIPTION_MAX = 200;
+        $("#general_details_chars").text(DESCRIPTION_MAX - $(this).val().length + " caracteres restantes.");
+    });
+
     $(document).on("change click", ".offer-type", function() {
-        let selectValue = $(this).val()
-        let priceArea = $(this).parent("div").parent("div").find(".price-input").parent()
-        let priceInput = $(this).parent("div").parent("div").find(".price-input")
+        let selectValue = $(this).val();
+        let priceArea = $(this).parent("div").parent("div").find(".price-input").parent();
+        let priceInput = $(this).parent("div").parent("div").find(".price-input");
         
-        if (selectValue == "Venda") {
+        if (selectValue == "Apenas Venda" || selectValue == "Venda ou Troca") {
             priceInput.attr("required", true);
             priceArea.fadeIn(200);
 
@@ -177,7 +182,7 @@ $(document).ready(function() {
 
     $(document).on("focus", ".bg-autocomplete", function() {
         $(".bg-autocomplete").autocomplete({
-            delay: 400,
+            delay: 300,
             source:function(request, response) {
                 $.getJSON("/bgsearch",{ 
                     bgquery: request.term,
@@ -190,8 +195,8 @@ $(document).ready(function() {
     })
 
     $(document).on("focus", "#city", function() {
-        var url = 'https://gist.githubusercontent.com/letanure/3012978/raw/2e43be5f86eef95b915c1c804ccc86dc9790a50a/estados-cidades.json'
-        var state = $("#states").val()
+        var url = 'https://gist.githubusercontent.com/letanure/3012978/raw/2e43be5f86eef95b915c1c804ccc86dc9790a50a/estados-cidades.json';
+        var state = $("#states").val();
   
       $("#city").autocomplete({
         delay: 250,
@@ -199,20 +204,20 @@ $(document).ready(function() {
               $.getJSON(url, { 
                   bgquery: request.term,
               }, function(data) {
-                typing = toTitleCase($("#city").val())
-                console.log(typing)
+                typing = toTitleCase($("#city").val());
+                console.log(typing);
   
                 const citiesState = data.estados.filter(function(item) {
                   if (item.sigla == state) {
-                    return item.cidades
+                    return item.cidades;
                   }
                 })
   
                 let cities = citiesState[0].cidades.filter(function(city) {
-                  return city.startsWith(typing)
+                  return city.startsWith(typing);
                 })
   
-                response(cities)
+                response(cities);
               });
           },
           minLength: 2,

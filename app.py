@@ -76,11 +76,17 @@ def assemble_message(adtype, text_list, output):
     # the output
 
     if len(text_list) > 0:        
-        if adtype == 'Venda':
+        if adtype == 'Apenas Venda':
             output += "VENDO\n\n"
         
-        elif adtype == 'Troca':
+        elif adtype == 'Apenas Troca':
             output += "#TROCO\n\n"
+
+        elif adtype == 'Venda ou Troca':
+            output += "VENDO OU #TROCO\n\n"
+
+        elif adtype == 'Leilão':
+            output += "#LEILÃO\n\n"
 
         else:
             output += "#PROCURO\n\n"
@@ -100,6 +106,8 @@ def handle_data(data, int_keys):
 
     sell = []
     trade = []
+    trade_or_sell = []
+    auction = []
     search = []
 
     for index in int_keys:
@@ -116,14 +124,23 @@ def handle_data(data, int_keys):
         offer = data[index]['offer']
         details = data[index]['details']
 
-        if offer == 'Venda':
+        if offer == 'Apenas Venda':
             price = remove_non_number(data[index]["price"])
             message = f'\t\t{formatted_name} por R$ {price}\n\t\t{details}'.rstrip()
             sell.append(message)
 
-        elif offer == 'Troca':
+        elif offer == 'Apenas Troca':
             message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
             trade.append(message)
+
+        elif offer == 'Venda ou Troca':
+            price = remove_non_number(data[index]["price"])
+            message = f'\t\t{formatted_name} por R$ {price}\n\t\t{details}'.rstrip()
+            trade_or_sell.append(message)
+
+        elif offer == 'Leilão':
+            message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
+            auction.append(message)
 
         else:
             message = f'\t\t{formatted_name}\n\t\t{details}'.rstrip()
@@ -131,11 +148,15 @@ def handle_data(data, int_keys):
 
     output = ''
 
-    for adtype, text_list in zip(['Venda', 'Troca', 'Procura'], [sell, trade, search]):
+    for adtype, text_list in zip(['Apenas Venda', 'Apenas Troca', 'Venda ou Troca', 'Leilão', 'Procura'], [sell, trade, trade_or_sell, auction, search]):
         output = assemble_message(adtype, text_list, output)
 
     city = data["city"].title().replace("-", "").replace(" ", "").replace("'", "")
     state = data["state"]
+
+    general_details = data['general_details'].strip()
+    if len(general_details) > 0:
+        output += f'{general_details}\n\n'
 
     output += f'#{city} #{state}'
 
@@ -148,16 +169,17 @@ def repack(form_data):
     data = {}
     data['city'] = form_data.city.data
     data['state'] = form_data.state.data
+    data['general_details'] = form_data.general_details.data
 
     index = 1
 
-    for games in form_data.boardgames.data:            
+    for games in form_data.boardgames.data:     
         data[index] = {
-            'boardgame' : games['boardgame'],
-            'offer'     : games['offer'],
-            'name'      : '',
-            'price'     : games['price'],
-            'details'   : games['details'],
+            'boardgame'         : games['boardgame'],
+            'offer'             : games['offer'],
+            'name'              : '',
+            'price'             : games['price'],
+            'details'           : games['details'],
         }
         index += 1
 
