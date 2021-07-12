@@ -194,31 +194,30 @@ $(document).ready(function() {
         });
     })
 
-    $(document).on("focus", "#city", function() {
-        var url = 'https://gist.githubusercontent.com/letanure/3012978/raw/2e43be5f86eef95b915c1c804ccc86dc9790a50a/estados-cidades.json';
-        var state = $("#states").val();
-  
+    const url = 'https://gist.githubusercontent.com/letanure/3012978/raw/2e43be5f86eef95b915c1c804ccc86dc9790a50a/estados-cidades.json';
+    let cities = []
+
+    fetch(url).then(
+        function(response) {
+            return response.json();
+        }
+    ).then(
+        function(data) {
+            data.estados.forEach(
+                element => cities.push(element.cidades)
+            )
+            cities = [...new Set(cities.flat())]
+        }
+    )
+
+    $(document).on("focus", "#city", function() {  
       $("#city").autocomplete({
-        delay: 250,
+        delay: 300,
           source: function(request, response) {
-              $.getJSON(url, { 
-                  bgquery: request.term,
-              }, function(data) {
-                typing = toTitleCase($("#city").val());
-                console.log(typing);
-  
-                const citiesState = data.estados.filter(function(item) {
-                  if (item.sigla == state) {
-                    return item.cidades;
-                  }
-                })
-  
-                let cities = citiesState[0].cidades.filter(function(city) {
-                  return city.startsWith(typing);
-                })
-  
-                response(cities);
-              });
+              typing = toTitleCase($("#city").val());
+              let results = cities.filter(word => word.startsWith(typing))
+              
+              response(results.slice(0, 10))
           },
           minLength: 2,
       });
