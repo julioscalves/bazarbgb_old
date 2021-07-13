@@ -165,33 +165,41 @@ $(document).ready(function() {
         $("#general_details_chars").text(DESCRIPTION_MAX - $(this).val().length + " caracteres restantes.");
     });
 
-    $(document).on("change click", ".offer-type", function() {
-        var selectValue = $(this).val();
-        var general_details = $("#general_details")
-        var priceArea = $(this).parent("div").parent("div").find(".price-input").parent();
-        var priceInput = $(this).parent("div").parent("div").find(".price-input");
+   
 
+    $(document).on("change click", "#boardgames-0-offer", function() {
+        var firstType = $("#boardgames-0-offer").val();
         var placeholder = "(Opcional) Aceito Shopee, MercadoLivre e retirada em mãos.";
         var placeholder_auction = "(Obrigatório) Link do leilão."
+        var general_details = $("#general_details")
+
+        console.log(firstType)
+
+        if (firstType == "Leilão") {
+            general_details.attr("required", true);
+            general_details.attr("placeholder", placeholder_auction);  
+
+        } else {
+            general_details.removeAttr("required");
+            general_details.attr("placeholder", placeholder);
+        }
+
+    })
+
+    $(document).on("change click", ".offer-type", function() {
+        var selectValue = $(this).val();
+        var priceArea = $(this).parent("div").parent("div").find(".price-input").parent();
+        var priceInput = $(this).parent("div").parent("div").find(".price-input");        
         
         if (selectValue == "Apenas Venda" || selectValue == "Venda ou Troca") {
             priceInput.attr("required", true);
             priceArea.fadeIn(200);
-            general_details.removeAttr("required");
-            general_details.attr("placeholder", placeholder);
-
-        } else if (selectValue == "Leilão") {
-            priceInput.removeAttr("required");
-            priceArea.fadeOut(200);
-            general_details.attr("required", true);
-            general_details.attr("placeholder", placeholder_auction);            
-
+            
         } else {
             priceInput.removeAttr("required");
             priceArea.fadeOut(200);
-            general_details.removeAttr("required");
-            general_details.attr("placeholder", placeholder);
         }
+
     });
 
     $(document).on("focus", ".bg-autocomplete", function() {
