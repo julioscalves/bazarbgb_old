@@ -166,17 +166,31 @@ $(document).ready(function() {
     });
 
     $(document).on("change click", ".offer-type", function() {
-        let selectValue = $(this).val();
-        let priceArea = $(this).parent("div").parent("div").find(".price-input").parent();
-        let priceInput = $(this).parent("div").parent("div").find(".price-input");
+        var selectValue = $(this).val();
+        var general_details = $("#general_details")
+        var priceArea = $(this).parent("div").parent("div").find(".price-input").parent();
+        var priceInput = $(this).parent("div").parent("div").find(".price-input");
+
+        var placeholder = "(Opcional) Aceito Shopee, MercadoLivre e retirada em mãos.";
+        var placeholder_auction = "(Obrigatório) Link do leilão."
         
         if (selectValue == "Apenas Venda" || selectValue == "Venda ou Troca") {
             priceInput.attr("required", true);
             priceArea.fadeIn(200);
+            general_details.removeAttr("required");
+            general_details.attr("placeholder", placeholder);
+
+        } else if (selectValue == "Leilão") {
+            priceInput.removeAttr("required");
+            priceArea.fadeOut(200);
+            general_details.attr("required", true);
+            general_details.attr("placeholder", placeholder_auction);            
 
         } else {
             priceInput.removeAttr("required");
             priceArea.fadeOut(200);
+            general_details.removeAttr("required");
+            general_details.attr("placeholder", placeholder);
         }
     });
 
