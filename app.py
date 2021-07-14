@@ -1,5 +1,7 @@
 import os
 import re
+import requests
+from bs4 import BeautifulSoup
 from flask.globals import request
 from flask_sqlalchemy import SQLAlchemy
 from forms import BoardGameForm, MainForm
@@ -188,11 +190,35 @@ def repack(form_data):
     return data, int_keys
 
 
+def bgg_query(game):
+    url = f'https://www.boardgamegeek.com/xmlapi/search?search={game}'
+    request = requests.get(url)
+
+    return request.text
+
+
+def searchbgg():
+    name = request.args.get('bgquery')
+    bgg_response = bgg_query(name)
+    soup = BeautifulSoup(bgg_response, 'lxml')
+
+    games = []
+
+    for game in soup.find_all('name', attrs={'primary': 'true'})[:10]:
+        games.append(game.text)
+    
+    return games
+
+
 @app.route('/bgsearch')
 def searchbg():
     name = request.args.get('bgquery')
     dbquery = Names.query.filter(Names.name.like(f'%{name}%')).all()
     results = [result.name for result in dbquery][:10]
+
+    if len(results) < 3:
+        bgg_search = searchbgg()
+        results = [*results, *bgg_search]
     
     return jsonify(bglist=results)
 
@@ -210,4 +236,4 @@ def home(data=None):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
