@@ -68,7 +68,10 @@ def format_name(name):
     name = name.replace('?', '') 
     name = name.replace('¿', '') 
     name = name.replace('Expansion', '') 
-    name = name.replace('expansion', '') 
+    name = name.replace('expansion', '')
+    name = name.replace('BoardGame', '')
+    name = name.replace('Boardgame', '')
+    name = name.replace('boardgame', '')
     
     name = f'#{name}'   
 
