@@ -25,7 +25,7 @@ class BoardGameForm(FlaskForm):
     submit      = SubmitField('Enviar')
 
 class MainForm(FlaskForm):
-    boardgames      = FieldList(FormField(BoardGameForm), min_entries=1, max_entries=20)
+    boardgames      = FieldList(FormField(BoardGameForm), min_entries=1, max_entries=50)
     city            = StringField('Cidade', validators=[InputRequired()])
     state           = SelectField('Estado', choices=STATES)
-    general_details = TextAreaField('Detalhes sobre o anúncio', render_kw={"rows": 4, "cols": 4}, validators=[Length(max=200)])
+    general_details = TextAreaField('Detalhes sobre o anúncio', render_kw={"rows": 4, "cols": 4}, validators=[Length(max=600)])
