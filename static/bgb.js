@@ -161,7 +161,7 @@ $(document).ready(function() {
     });
 
     $("body").on("keyup change", "#general_details", function() {
-        const DESCRIPTION_MAX = 200;
+        const DESCRIPTION_MAX = 600;
         $("#general_details_chars").text(DESCRIPTION_MAX - $(this).val().length + " caracteres restantes.");
     });
 
