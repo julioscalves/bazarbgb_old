@@ -170,6 +170,15 @@ def handle_data(data, int_keys):
     return output
 
 
+def format_price(price):
+    price = price.replace('.', ',')
+
+    if len(price.split(',')[-1]) == 1:
+        price += '0'
+
+    return price
+
+
 def repack(form_data):
     # repacks the request form into a dictionary
 
@@ -180,12 +189,12 @@ def repack(form_data):
 
     index = 1
 
-    for games in form_data.boardgames.data:     
+    for games in form_data.boardgames.data: 
         data[index] = {
             'boardgame'         : games['boardgame'],
             'offer'             : games['offer'],
             'name'              : '',
-            'price'             : games['price'],
+            'price'             : format_price(games['price']),
             'details'           : games['details'],
         }
         index += 1
@@ -241,4 +250,4 @@ def home(data=None):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
