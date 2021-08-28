@@ -130,7 +130,6 @@ def handle_data(data, int_keys):
             new_boardgame = Names(name=boardgame, tag=formatted_name)
             db.session.add(new_boardgame)
             db.session.commit()
-            print(f'{boardgame} record inserted!')
 
         data[index]['name'] = formatted_name
         formatted_name = data[index]['name']
