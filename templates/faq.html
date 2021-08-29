@@ -1,0 +1,62 @@
+{% extends 'template.html' %}
+
+{% block content %}
+<div class="card px-5 mt-5 mb-5">
+    <div class="row mt-1">
+        <div class="text-center">
+            <a href="/"><img src="{{ url_for('static', filename='bgb-transparent.png') }}" style="border-radius: 50%; width: 30%; height: auto;"class="rounded" alt="Bazar BGB logo"></a>
+        </div>
+        <p class="text-center lead fw-bold">FAQ</p>
+        <ol class="list-group list-group-numbered mb-5 col-10 mx-auto">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">Como utilizar o gerador de anúncios?</div>
+                Preencha as informações referentes à cidade, ao estado e ao jogo e clique em enviar. A depender do tipo de anúncio, o preço pode ser um campo de preenchimento obrigatório.
+                <br>Os campos de cidade e jogo <mark>devem ser selecionados conforme as sugestões do campo de autocompletar</mark>.
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">E se a minha cidade ou o jogo não estiverem entre as sugestões?</div>
+                Verifique se o nome do jogo e/ou da cidade <mark>foram digitados corretamente</mark>. Envie essa ocorrência para a administração. Em caso de algum jogo, envie o link deste board game conforme listado no BGG.
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">A tag gerada está errada! O que eu faço?</div>
+                  De antemão, verifique se o nome do jogo e/ou da cidade <mark>foram digitados corretamente</mark>. Se estiver tudo certo, ver resposta do item 2.
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">O que você quer dizer com "digitados corretamente"?</div>
+                  <div class="row text-center mx-auto">
+                    <div class="col-6"><strong>Certo</strong></div><div class="col-6"><strong>Errado</strong></div>
+                    <div class="col-6">7 Wonders Duel</div><div class="col-6">7WondersDuel</div>
+                    <div class="col-6">Marco Polo</div><div class="col-6">MarcoPolo</div>
+                    <div class="col-6">7 Wonders</div><div class="col-6">Seven Wonders</div>
+                  </div>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">Como envio o meu anúncio ao BGB Bazar?</div>
+                Utilize o botão Compartilhar para enviar o texto para o BGB Bazar. Caso não seja redirecionado para a opção de compartilhamento, o botão Compartilhar automaticamente copia o conteúdo do anúncio. Neste caso, é só colar no BGB Bazar.
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Como faço se eu quiser adicionar imagens?</div>
+                  O Telegram não permite adicionar imagens à uma mensagem de texto. No entanto, permite adicionar texto à uma imagem. Por isso, adicione as imagens no BGB Bazar e então adicione o texto produzido por este gerador.
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Não quero utilizar o gerador! Como faço?</div>
+                  Não há qualquer tipo de problema desde que o seu anúncio siga todas as regras do Bazar BGB, incluindo as tags corretamente formatadas. 
+                </div>
+            </li>
+          </ol>
+    </div>
+</div>
+{% endblock %}

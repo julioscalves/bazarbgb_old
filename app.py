@@ -242,6 +242,11 @@ def searchbg():
     return jsonify(bglist=results)
 
 
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
+
 @app.route("/", methods=['GET', 'POST'])
 def home(data=None):
     form = MainForm()
