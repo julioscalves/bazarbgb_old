@@ -127,9 +127,9 @@ def handle_data(data, int_keys):
             formatted_name = boardgame_tag_query[0].tag
         else:
             formatted_name = format_name(boardgame)
-            new_boardgame = Names(name=boardgame, tag=formatted_name)
-            db.session.add(new_boardgame)
-            db.session.commit()
+            #new_boardgame = Names(name=boardgame, tag=formatted_name)
+            #db.session.add(new_boardgame)
+            #db.session.commit()
 
         data[index]['name'] = formatted_name
         formatted_name = data[index]['name']

@@ -7,7 +7,7 @@ cur = con.cursor()
 
 now = datetime.datetime.now()
 
-with open(f'boardgames_{now.hour}{now.minute}{now.second}_export.txt', 'w', encoding='utf8') as names:
+with open(f'boardgames_{now.hour}{now.minute}{now.second}{now.day}{now.month}{now.year}_export.txt', 'w', encoding='utf8') as names:
 
     boardgames = cur.execute('SELECT * FROM boardgames')
 
