@@ -1,5 +1,6 @@
 import re
 import os
+import glob
 import sqlite3
 
 con = sqlite3.connect('names.db')
@@ -13,7 +14,8 @@ except:
     
 finally:
 
-    with open('boardgames_140262982021_export.txt', 'r', encoding='utf8') as names:
+    bglist = glob.glob('*.txt')
+    with open(bglist[0], 'r', encoding='utf8') as names:
         names = names.readlines()
         
         for name in names:
