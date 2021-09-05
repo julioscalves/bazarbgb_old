@@ -237,7 +237,7 @@ def searchbg():
 
     if len(results) < 3:
         bgg_search = searchbgg()
-        results = [*results, *bgg_search]
+        results = set([*results, *bgg_search])
     
     return jsonify(bglist=results)
 
